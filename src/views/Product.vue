@@ -8,7 +8,7 @@
     <div v-if="$store.state.products.form.pending" class="text-center">
       Loading Product...
     </div>
-    <div v-else>
+    <div v-else-if="!$store.state.products.form.error">
       <v-layout
         v-if="$store.state.products.form.item"
         column
@@ -28,7 +28,9 @@
         ></confirm-dialog>
       </v-layout>
     </div>
-    <div v-if="$store.state.products.form.error">Product Not Found</div>
+    <div v-if="$store.state.products.form.error" class="text-center">
+      {{ $store.state.products.form.error.message }}
+    </div>
   </v-container>
 </template>
 
@@ -59,14 +61,14 @@ export default {
           storeId: process.env.VUE_APP_STORE_ID,
           id: this.$route.params.id,
         })
-        .then(
-          () => {
-            console.log("resolve");
-          },
-          () => {
-            console.log("reject");
-          }
-        );
+        .then(() => {
+          this.showConfirmDialog = false;
+          this.$router.push("/products");
+        })
+        .catch(() => {
+          this.showConfirmDialog = false;
+          // Handle Error
+        });
     },
   },
 };

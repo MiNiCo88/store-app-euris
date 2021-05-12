@@ -6,6 +6,9 @@ import {
   GET_PRODUCT_START,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_ERROR,
+  ADD_PRODUCT_START,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_ERROR,
   DELETE_PRODUCT_START,
   DELETE_PRODUCT_SUCCESS,
   SET_DISPLAY,
@@ -41,6 +44,16 @@ export default {
   },
   [DELETE_PRODUCT_SUCCESS](state) {
     Vue.set(state.actions, "deleting", false);
+  },
+  [ADD_PRODUCT_START](state) {
+    Vue.set(state.form, "pending", true);
+  },
+  [ADD_PRODUCT_SUCCESS](state) {
+    Vue.set(state.form, "pending", false);
+  },
+  [ADD_PRODUCT_ERROR](state, payload) {
+    Vue.set(state.form, "pending", false);
+    Vue.set(state.form, "error", payload);
   },
   [SET_DISPLAY](state, payload) {
     Vue.set(state.items, "displayGrid", payload);

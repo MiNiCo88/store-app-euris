@@ -11,7 +11,7 @@ class Products {
     return this.http.get(`/stores/${storeId}/products/${id}`);
   }
 
-  addProduct(storeId, payload) {
+  addProduct({ storeId, payload }) {
     return this.http.post(`/stores/${storeId}/products`, payload);
   }
 

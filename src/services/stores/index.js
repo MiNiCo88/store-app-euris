@@ -7,8 +7,12 @@ class Stores {
     return this.http.get("/stores");
   }
 
-  getStore(id) {
+  getStore({ id }) {
     return this.http.get(`/stores/${id}`);
+  }
+
+  getStoreCategories({ id }) {
+    return this.http.get(`/stores/${id}/stats/categories`);
   }
 }
 

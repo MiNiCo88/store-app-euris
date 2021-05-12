@@ -1,7 +1,12 @@
 <template>
   <v-card max-width="500" width="100%" class="pa-4 d-flex flex-column">
     <h3 class="mb-4">Reviews</h3>
-    <div v-if="$store.state.products.form.item.reviews.length">
+    <div
+      v-if="
+        $store.state.products.form.item.reviews &&
+        $store.state.products.form.item.reviews.length
+      "
+    >
       <p
         v-for="(review, index) in $store.state.products.form.item.reviews"
         :key="`review-${index}`"

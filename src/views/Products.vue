@@ -37,7 +37,13 @@
               :description="product.data.description"
               :category="product.data.category"
               :id="product.id"
+              @delete="onDelete(product.id)"
             ></product-card>
+            <confirm-dialog
+              :is-open="showConfirmDialog"
+              @confirm="onConfirmDelete()"
+              @cancel="showConfirmDialog = false"
+            ></confirm-dialog>
           </v-flex>
         </v-layout>
       </v-container>
@@ -47,9 +53,14 @@
 
 <script>
 import ProductCard from "../components/ProductCard";
+import ConfirmDialog from "../components/ConfirmDialog";
 export default {
   name: "Products",
-  components: { ProductCard },
+  components: { ConfirmDialog, ProductCard },
+  data: () => ({
+    showConfirmDialog: false,
+    productToDelete: null,
+  }),
   // data: () => ({
   //   data: [
   //     {
@@ -203,6 +214,29 @@ export default {
   methods: {
     onToggleChange($event) {
       this.$store.dispatch("products/setDisplay", $event);
+    },
+    onDelete(productId) {
+      this.showConfirmDialog = true;
+      this.productToDelete = productId;
+    },
+    onConfirmDelete() {
+      this.$store
+        .dispatch("products/deleteProduct", {
+          storeId: process.env.VUE_APP_STORE_ID,
+          id: this.productToDelete,
+        })
+        .then(() => {
+          this.showConfirmDialog = false;
+          this.productToDelete = null;
+          this.$store.dispatch(
+            "products/fetchProducts",
+            process.env.VUE_APP_STORE_ID
+          );
+        })
+        .catch(() => {
+          this.showConfirmDialog = false;
+          // Handle Error
+        });
     },
   },
 };

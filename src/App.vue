@@ -20,8 +20,12 @@
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>
+        <template v-if="$store.state.stores.info.data">
+          {{ $store.state.stores.info.data.name }} -
+          {{ $store.state.stores.info.data.category }}
+        </template>
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -43,8 +47,8 @@ export default {
         icon: "mdi-view-dashboard",
         route: { name: "Dashboard" },
       },
-      { title: "Prodotti", icon: "mdi-image", route: { name: "Products" } },
-      { title: "Nuovo", icon: "mdi-help-box", route: { name: "NewProduct" } },
+      { title: "Products", icon: "mdi-image", route: { name: "Products" } },
+      { title: "New", icon: "mdi-plus", route: { name: "NewProduct" } },
     ],
   }),
   computed: {

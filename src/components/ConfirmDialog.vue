@@ -8,13 +8,9 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="red" text @click="$emit('confirm')">
-          Confirm
-        </v-btn>
+        <v-btn color="red" text @click="$emit('confirm')"> Confirm </v-btn>
 
-        <v-btn text @click="$emit('cancel')">
-          Cancel
-        </v-btn>
+        <v-btn text @click="$emit('cancel')"> Cancel </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

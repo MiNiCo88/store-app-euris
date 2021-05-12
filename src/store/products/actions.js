@@ -9,6 +9,9 @@ import {
   DELETE_PRODUCT_START,
   DELETE_PRODUCT_SUCCESS,
   SET_DISPLAY,
+  ADD_PRODUCT_START,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_ERROR,
 } from "./mutation-type";
 
 export default {
@@ -31,13 +34,33 @@ export default {
       }
     );
   },
+  addProduct(store, payload) {
+    store.commit(ADD_PRODUCT_START);
+    return new Promise((resolve, reject) => {
+      services.Products.addProduct(payload)
+        .then(
+          ({ data }) => {
+            store.commit(ADD_PRODUCT_SUCCESS);
+            resolve(data);
+          },
+          (error) => {
+            store.commit(ADD_PRODUCT_ERROR, error);
+            reject(error);
+          }
+        )
+        .catch((error) => {
+          store.commit(ADD_PRODUCT_ERROR, error);
+          reject(error);
+        });
+    });
+  },
   deleteProduct(store, payload) {
     store.commit(DELETE_PRODUCT_START);
     return new Promise((resolve, reject) => {
       services.Products.deleteProduct(payload)
         .then(
           () => {
-            store.commit(DELETE_PRODUCT_START);
+            store.commit(DELETE_PRODUCT_SUCCESS);
             resolve();
           },
           (error) => {
